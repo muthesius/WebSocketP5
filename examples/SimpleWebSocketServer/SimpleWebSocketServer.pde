@@ -14,7 +14,7 @@ void setup() {
 
 void draw() {}
 
-void mousePresssed(){
+void mousePressed(){
   socket.broadcast("hello from processing!");
 }
 
