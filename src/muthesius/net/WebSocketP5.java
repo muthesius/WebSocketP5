@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.lang.reflect.Method;
 import processing.core.*;
 import org.webbitserver.*;
+import org.webbitserver.handler.*;
+
 
 /**
  * @example SimpleWebSocketServer 
@@ -51,18 +53,18 @@ public class WebSocketP5 implements WebSocketHandler {
 	WebServer server = null;
 	int port;
 	String socketname;
-	
+		
 	public final static String VERSION = "##version##";
 	public final static String DEFAULT_SOCKET = "p5websocket";
 
 	/**
 	 * Initialize a Websocket as a Webbit Webserver with a socket.
 	 * 
-	 * @example SimpleWebScketServer
+	 * @example SimpleWebSocketServer
 	 * @param theParent
 	 * @param port The port the socket should be served on (mus be >1024)
 	 * @param socketname Give the socket a name - this results to the URL
-	 * 									 in your javascript, e.g. you give it "mysocket", 
+	 *                   in your javascript, e.g. you give it "mysocket", 
 	 *                   the URL will be ws://<servername>/mysocket
 	 * 
 	 */
@@ -79,9 +81,12 @@ public class WebSocketP5 implements WebSocketHandler {
 		
 		server = WebServers.createWebServer(this.port);
  		server.add("/"+this.socketname, this);
+		server.add(new StaticFileHandler(parent.sketchPath("html")));
 
+		server.add("/js/jquery.js",new JSStringServer(parent.loadStrings("js/jquery-1.6.min.js")));
+		
 		try {
-   		server.start();
+   			server.start();
 			System.out.println("Server running at " + server.getUri()+this.socketname);
 		} catch (Exception e) {
 			// just catch it and do nothing
@@ -156,6 +161,7 @@ public class WebSocketP5 implements WebSocketHandler {
 	 */
 	public int howManyConnections(){return connectionCount;}
 	
+	
 	//// ACTIONS
 	
 	/**
@@ -184,53 +190,62 @@ public class WebSocketP5 implements WebSocketHandler {
 	int connectionCount;
 	ArrayList<WebSocketConnection> connections = new ArrayList();
 
-	// class DefaultWebSocketSocket implements WebSocketHandler {
-	  public void onOpen(WebSocketConnection connection) {
-	    if (newConnectionOpenedEvent != null) {
+	public void onOpen(WebSocketConnection conn) {
+		WebSocketConnection connection = (WebSocketConnection)conn;
+	   if (newConnectionOpenedEvent != null) {
 		    try {
-					Object args[] = {connection};
-		      newConnectionOpenedEvent.invoke(parent, args);
+				Object args[] = {connection};
+		      	newConnectionOpenedEvent.invoke(parent, args);
 		    } catch (Exception e) {
-		      // System.err.println("Disabling onWebSocketMessage() for " +
-		      //                    " because of an error.");
-		      // e.printStackTrace();
-		      newConnectionOpenedEvent = null;
-	    	}
-	  	}
-	    connections.add(connection);
-	    connectionCount++;
-	  }
+		      	newConnectionOpenedEvent = null;
+		   	}
+	 	}
+	   connections.add(connection);
+	   connectionCount++;
+	 }
 
-	  public void onClose(WebSocketConnection connection) {
-	    if (newConnectionClosedEvent != null) {
-		    try {
-					Object args[] = {connection};
-		      newConnectionClosedEvent.invoke(parent, args);
-		    } catch (Exception e) {
-		      // System.err.println("Disabling onWebSocketMessage() for " +
-		      //                    " because of an error.");
-		      // e.printStackTrace();
-		      newConnectionClosedEvent = null;
-	    	}
-	  	}
-	    if (connections.contains(connection))
-	      connections.remove(connections.indexOf(connection));
-	    connectionCount--;
-	  }
+	public void onClose(WebSocketConnection conn) {
+		WebSocketConnection connection = (WebSocketConnection)conn;
+		if (newConnectionClosedEvent != null) {
+			try {
+				Object args[] = {connection};
+			 	newConnectionClosedEvent.invoke(parent, args);
+			} catch (Exception e) {
+			 	newConnectionClosedEvent = null;
+			}
+		}
+		if (connections.contains(connection)) connections.remove(connections.indexOf(connection));
+		connectionCount--;
+	}
 
-	  public void onMessage(WebSocketConnection connection, String message) {
-	    if (newMessageEvent != null) {
+	public void onMessage(WebSocketConnection conn, String message) {
+		WebSocketConnection connection = (WebSocketConnection)conn;
+	   	if (newMessageEvent != null) {
 		    try {
-					Object args[] = {connection, message};
-		      newMessageEvent.invoke(parent, args);
+				Object args[] = {connection,message};
+		      	newMessageEvent.invoke(parent, args);
 		    } catch (Exception e) {
-		      // System.err.println("Disabling onWebSocketMessage() for " +
-		      //                    " because of an error.");
-		      // e.printStackTrace();
-		      newMessageEvent = null;
-	    	}
-	  	}
-	  }
-	// }
+				newMessageEvent = null;
+		   	}
+	 	}
+	 }
 	/////////// END SOCKETHANDLING
+	
+	class JSStringServer implements HttpHandler {
+	  String data[];
+	  public JSStringServer(String[] data){
+		this.data = data;
+	  }
+	  public void handleHttpRequest(HttpRequest request, HttpResponse response, HttpControl control) {
+	    response.header("Content-Type", "application/javascript");
+	    String out = "";
+	    if(this.data!=null){
+			for (String line : this.data){
+			    out += "\n"+line;
+			}
+	    }
+	    response.content(out);
+	    response.end();
+	  }
+	}
 }

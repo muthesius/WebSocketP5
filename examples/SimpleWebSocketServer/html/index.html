@@ -3,6 +3,7 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Sockettester</title>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 		
 			
@@ -17,7 +18,7 @@
 				ws = new WebSocket("ws://"+host+":"+port+_socket)
 				// When the connection is open, send some data to the server
 				ws.onopen = function () {
-					console.log("opened")
+				  console.log("opened")
 				  ws.send('Ping'); // Send the message 'Ping' to the server
 				};
 
@@ -33,6 +34,7 @@
 
 				// Log messages from the server
 				ws.onmessage = function (e) {
+				  $('#log').text(e.data+$('#log').text())
 				  console.log('Server: ' + e.data);
 				};
 			}
