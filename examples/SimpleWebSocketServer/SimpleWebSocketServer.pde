@@ -1,3 +1,8 @@
+/*
+	Simple WebSocketServer Example
+	http://github.com/muthesius/WebSocketP5
+ */
+
 import muthesius.net.*;
 import org.webbitserver.*;
 
