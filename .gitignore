@@ -1,2 +1,6 @@
 .DS_Store
-distribution/*
+*.DS_Store
+/.classpath
+/.project
+/bin/*
+/distribution/*
