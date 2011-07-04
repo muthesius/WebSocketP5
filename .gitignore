@@ -4,4 +4,4 @@
 .project
 .settings
 bin/*
-/distribution/*
+distribution/*
