@@ -128,8 +128,17 @@ ${line}
 	</target>
 	
 	
+	<path id="pack.libs">
+	    <fileset dir="lib" includes="**/*.jar" />
+	</path>
+	
 	<target name="generate.jar">
-		<jar jarfile="${project.tmp}/${project.name}/${folder}/${project.jar.name}" basedir="${project.bin}"/>
+    <jar jarfile="${project.tmp}/${project.name}/${folder}/${project.jar.name}">
+      <fileset dir="${project.bin}" />
+    	  <zipfileset includes="**/*.class">
+    	    <path refid="pack.libs" />
+    	  </zipfileset>
+   </jar>
 	</target>
 	
 	
@@ -146,12 +155,12 @@ ${line}
 	  			<exclude name="**/*README*"/>
   			</fileset>
 	  	</copy>
-  		<copy todir="${project.tmp}/${project.name}/src">
+		<copy todir="${project.tmp}/${project.name}/src">
   			<fileset dir="${project.src}"/>
 	  	</copy>
-	  	<copy todir="${project.tmp}/${project.name}/${folder}">
+		<!--<copy todir="${project.tmp}/${project.name}/${folder}">
   			<fileset dir="${project.lib}" excludes="README" />
-	  	</copy>
+	  	</copy>-->
 	</target>
 	
 	
