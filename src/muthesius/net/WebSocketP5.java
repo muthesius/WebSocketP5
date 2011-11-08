@@ -261,6 +261,14 @@ public class WebSocketP5 implements WebSocketHandler {
     }
   }
 
+  /////////// Implement the musts:
+  
+  public void onMessage(WebSocketConnection connection, byte[] message) {
+  }
+  
+  public void onPong(WebSocketConnection connection, String message) {
+  }
+
   // ///////// END SOCKETHANDLING
 
   class JSStringServer implements HttpHandler {
@@ -283,4 +291,6 @@ public class WebSocketP5 implements WebSocketHandler {
       response.end();
     }
   }
+  
+  
 }
