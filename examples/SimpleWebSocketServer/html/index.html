@@ -15,7 +15,12 @@
 			function ready(){
 				console.log("trying to open a websocket")
 				var _socket = (undefined==socket)?"":"/"+socket
-				ws = new WebSocket("ws://"+host+":"+port+_socket)
+				
+				_url = "ws://"+host+":"+port+_socket
+				
+				if ('MozWebSocket' in window) ws = new MozWebSocket (_url);
+        else ws = new WebSocket (_url);
+				
 				// When the connection is open, send some data to the server
 				ws.onopen = function () {
 				  console.log("opened")
