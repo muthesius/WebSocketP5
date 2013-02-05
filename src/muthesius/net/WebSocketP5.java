@@ -25,7 +25,7 @@
 
 package muthesius.net;
 
-import java.io.*;
+// import java.io.*;
 import java.util.ArrayList;
 import java.lang.reflect.Method;
 import processing.core.*;
@@ -38,6 +38,7 @@ import org.webbitserver.handler.*;
  * @example SimpleWebSocketServer
  */
 
+
 public class WebSocketP5 implements WebSocketHandler {
   // Reference to the sketch
   PApplet                    parent;
@@ -46,7 +47,6 @@ public class WebSocketP5 implements WebSocketHandler {
   Method                     newMessageEvent;
   Method                     newConnectionOpenedEvent;
   Method                     newConnectionClosedEvent;
-
   
   // The internal Server
   WebServer                  server         = null;
@@ -83,11 +83,18 @@ public class WebSocketP5 implements WebSocketHandler {
     this.socketname = socketname;
 
     server = WebServers.createWebServer(this.port);
+    
     server.add("/" + this.socketname, this);
-    server.add(new StaticFileHandler(parent.sketchPath("html")));
+    
+    StaticFileHandler files = new StaticFileHandler(parent.sketchPath("html"));
+    files.addMimeType("mp4", "video/mp4");
+    files.addMimeType("ogg", "video/ogg");
+    files.addMimeType("webm", "video/webm");
+    files.addMimeType("mp3", "audio/mp3");
+    server.add(files);
 
-    server.add("/js/jquery.js",
-        new JSStringServer(parent.loadStrings("js/jquery-1.6.min.js")));
+    server.add("/scripts/jquery.js",
+        new JSStringServer(parent.loadStrings("js/jquery.js")));
 
     try {
       server.start();
@@ -96,6 +103,7 @@ public class WebSocketP5 implements WebSocketHandler {
     }
     catch (Exception e) {
       // just catch it and do nothing
+      System.out.println("Could not start the server: "+e.toString());
       server = null;
     }
 
@@ -215,7 +223,7 @@ public class WebSocketP5 implements WebSocketHandler {
 
   // ///////// BEGINN SOCKETHANDLING
   int                            connectionCount;
-  ArrayList<WebSocketConnection> connections = new ArrayList();
+  ArrayList<WebSocketConnection> connections = new ArrayList<WebSocketConnection>();
 
   public void onOpen(WebSocketConnection conn) {
     WebSocketConnection connection = (WebSocketConnection) conn;
@@ -266,7 +274,16 @@ public class WebSocketP5 implements WebSocketHandler {
   public void onMessage(WebSocketConnection connection, byte[] message) {
   }
   
+  public void onPing(WebSocketConnection connection, String message) {
+  }
+
   public void onPong(WebSocketConnection connection, String message) {
+  }
+
+  public void onPing(WebSocketConnection connection, byte[] message) {
+  }
+
+  public void onPong(WebSocketConnection connection, byte[] message) {
   }
 
   // ///////// END SOCKETHANDLING

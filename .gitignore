@@ -1,7 +1,4 @@
 .DS_Store
 *.DS_Store
-.classpath
-.project
-.settings
 bin/*
 distribution/*
