@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="webbitserver"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="/Applications/Processing.app/Contents/Resources/Java/core.jar"/>
-	<classpathentry kind="lib" path="lib/webbit-all-in-one.jar"/>
+	<classpathentry kind="lib" path="/Applications/Processing.app/Contents/Java/core.jar"/>
+	<classpathentry kind="lib" path="/Users/jns/code/Java/workspace/WebSocketP5/src/org/webbit/lib/netty-3.6.5.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
