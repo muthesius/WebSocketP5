@@ -6,20 +6,20 @@
 import muthesius.net.*;
 import org.webbitserver.*;
 
-WebSocketP5 socket;
+WebSocketP5 server;
 
 void setup() {
-  socket = new WebSocketP5(this,8080);
+  server = new WebSocketP5(this,8080);
 }
 
 void draw() {}
 
 void stop(){
-	socket.stop();
+	server.stop();
 }
 
 void mousePressed(){
-  socket.broadcast("hello from processing!");
+  server.broadcast("hello from processing!");
 }
 
 void websocketOnMessage(WebSocketConnection con, String msg){
