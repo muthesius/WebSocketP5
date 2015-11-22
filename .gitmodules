@@ -1,3 +1,0 @@
-[submodule "src/org/webbit"]
-	path = src/org/webbit
-	url = git://github.com/webbit/webbit
