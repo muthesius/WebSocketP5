@@ -127,7 +127,7 @@ public class WebSocketP5 implements WebSocketHandler {
     }
     catch (Exception e) {}
     
-    parent.registerDispose(this);
+    parent.registerMethod("dispose", this);
     System.out.println("Server done");
     
     // / END CONSTRUCTOR
