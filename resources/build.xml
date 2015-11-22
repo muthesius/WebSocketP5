@@ -64,7 +64,6 @@
 
 
 	<path id="classpath">
-		<fileset dir="./src/org/webbit/lib" includes="**/*.jar" />
 		<fileset dir="${classpath.local.location}" includes="${classpath.local.include}" />
 		<fileset dir="${classpath.libraries.location}" includes="**/*.jar" />
 		<fileset dir="${project.lib}" includes="**/*.jar" />

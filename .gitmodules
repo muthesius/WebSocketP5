@@ -1,0 +1,3 @@
+[submodule "dependencies/webbit"]
+	path = dependencies/webbit
+	url = git://github.com/webbit/webbit
