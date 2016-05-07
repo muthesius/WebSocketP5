@@ -56,7 +56,7 @@ public class WebSocketP5 extends BaseWebSocketHandler {
   }
 
   public WebSocketP5(PApplet theParent, int port) {
-    this(theParent, DEFAULT_PORT, DEFAULT_SOCKET);
+    this(theParent, port, DEFAULT_SOCKET);
   }
 
   /**
