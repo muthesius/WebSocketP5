@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> **Project archived – no active maintenance.**  
+> Future development, if any, will happen in [`jnslxndr/WebSocketP5`](https://github.com/jnslxndr/WebSocketP5).
+
+
 WebSocketP5
 ===========
 
